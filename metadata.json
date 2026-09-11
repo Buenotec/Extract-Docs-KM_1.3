@@ -1,0 +1,8 @@
+{
+  "name": "Extração de Docs-KM_1.3",
+  "description": "Leitura multimodal de documentos e manuscritos, extração estruturada de dados, tabela de validação interativa e exportação em CSV com UTF-8 BOM.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,44 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Direct API routes to Netlify Functions (force=true avoids serving HTML index on API paths)
+[[redirects]]
+  from = "/api/extract"
+  to = "/.netlify/functions/extract"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/re-extract"
+  to = "/.netlify/functions/re-extract"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/audit-deepseek"
+  to = "/.netlify/functions/audit-deepseek"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/health"
+  to = "/.netlify/functions/health"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+# Fallback for Single Page Application (SPA) routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
