@@ -5,7 +5,6 @@
 
 [functions]
   node_bundler = "esbuild"
-  timeout = 26
 
 # Direct API routes to Netlify Functions (force=true avoids serving HTML index on API paths)
 [[redirects]]
