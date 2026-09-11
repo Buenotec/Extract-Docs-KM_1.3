@@ -26,11 +26,11 @@ export async function optimizeFileForExtraction(file: File): Promise<{ base64: s
       const img = new Image();
       img.onerror = () => resolve({ base64: dataUrl, mimeType: file.type || 'image/png' });
       img.onload = () => {
-        const MAX_DIM = 2048;
+        const MAX_DIM = 2560;
         let { width, height } = img;
 
-        // If file is already reasonably sized, don't recompress
-        if (width <= MAX_DIM && height <= MAX_DIM && file.size < 2 * 1024 * 1024) {
+        // If file is already reasonably sized and sharp (< 3.5MB and within 2560px), keep 100% original
+        if (width <= MAX_DIM && height <= MAX_DIM && file.size < 3.5 * 1024 * 1024) {
           resolve({ base64: dataUrl, mimeType: file.type || 'image/png' });
           return;
         }
@@ -61,7 +61,8 @@ export async function optimizeFileForExtraction(file: File): Promise<{ base64: s
           ctx.imageSmoothingQuality = 'high';
           ctx.drawImage(img, 0, 0, width, height);
 
-          const optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.88);
+          // Use high quality 0.94 so small handwritten digits and table lines remain crisp
+          const optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.94);
           resolve({ base64: optimizedDataUrl, mimeType: 'image/jpeg' });
         } catch {
           resolve({ base64: dataUrl, mimeType: file.type || 'image/png' });

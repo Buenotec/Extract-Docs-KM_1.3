@@ -123,12 +123,14 @@ export function ValidationTable({
         } else {
           totalKm += prod;
         }
-      } else {
-        alertas.push(`Linha ${lineNum}: Registro com KM inicial ou final ausente/nulo`);
+      } else if (r.km_inicial !== null && r.km_final === null) {
+        alertas.push(`Linha ${lineNum}: KM inicial informado (${r.km_inicial}), mas KM final em branco`);
+      } else if (r.km_inicial === null && r.km_final !== null) {
+        alertas.push(`Linha ${lineNum}: KM final informado (${r.km_final}), mas KM inicial em branco`);
       }
 
-      if (!r.motorista) {
-        alertas.push(`Linha ${lineNum}: Motorista não identificado`);
+      if (!r.motorista && (r.km_inicial !== null || r.km_final !== null)) {
+        alertas.push(`Linha ${lineNum}: Motorista não identificado em dia com rodagem`);
       }
     });
 
